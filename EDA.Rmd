@@ -1,0 +1,39 @@
+---
+title: "Load Forecasting: Exploratory Data Analysis"
+author: "Nhlanhla Mthembu"
+date: "03/10/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Loading and Transforming Data
+The following code loads data and transform it into Time Series object
+
+```{r load_data}
+data_load=read.csv("dataset.csv")
+main_dataset<-ts(data = data_load$Consumption,frequency = 12,start = c(2002,01),end = c(2021,06))
+```
+
+## Time Series Plots
+
+### Original Time Series Plot
+```{r data_plot}
+plot(main_dataset,ylab="Load Consumption Gigawhatts ",main="Time Series plot Electricity consumption in South Africa")
+
+```
+
+## Autocorrelation function
+```{r acf_plot}
+acf(main_dataset)
+```
+
+## Partial Autocorrelation function
+```{r pacf_plot}
+acf(main_dataset, type="partial")
+```
+
+
+# Thank You
