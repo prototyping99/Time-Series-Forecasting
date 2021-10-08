@@ -15,13 +15,13 @@ suppressPackageStartupMessages(c(
 ######################################################
 
 # Read data 
-mydata <- read.csv("C:/R/N_Mthembu_Hons/datasetv2.csv", header = TRUE, sep=";") # directory path 
+mydata <- read.csv("datasetv2.csv", header = TRUE, sep=";") # directory path 
 mydata$date <- as.POSIXct(strptime(mydata$date, format = "%Y/%m/%d", tz = "GMT"))
 
 head(mydata, 3)
 #####################################
 
-plot(mydata$date, mydata$EC, type = "l", xlab = "Date", ylab = "Elec Cons (m^3/s)", main = "Monthly Ele C")
+plot(mydata$date, mydata$EC, type = "l", xlab = "Date", ylab = "Electricity Consumption (GW)", main = "Monthly Electricity consuption in Gigawatts(GW) from 2002/01 to 2021/06")
 
 #####################################
 # interpol data sf data
@@ -47,7 +47,7 @@ EC %>% decompose(type="additive") %>%
   ggtitle("Classical multiplicative decomposition: ET") +
   theme_bw()
 ####################################################################
-
+#Modelling Start Here
 #################forecasting#################################
 # forecasting using ARIMA 
 fitAR<-auto.arima(EC, lambda=0, biasadj=TRUE)

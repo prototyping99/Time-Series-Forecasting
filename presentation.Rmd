@@ -1,0 +1,52 @@
+---
+#title: "R Notebook"
+title: "Load Forecasting using a Hybrid Model for Autoregressive Integrated Moving Average and Artificial Neural Network: Exploratory Data Analysis"
+author: "Nhlanhla Mthembu"
+date: "08/10/2021"
+output: html_notebook
+---
+
+### Loading and Transforming Data
+The following code loads data and transform it into Time Series object
+
+```{r read_show_data}
+# Read data 
+mydata <- read.csv("datasetv2.csv", header = TRUE, sep=";") # directory path 
+mydata$date <- as.POSIXct(strptime(mydata$date, format = "%Y/%m/%d", tz = "GMT"))
+
+head(mydata, 5)
+```
+
+## Time Series Plots
+
+### Original Time Series Plot
+```{r data_plot}
+plot(mydata$date, mydata$EC, type = "l", xlab = "Year", ylab = "Electricity Consumption (GW)", main = "Monthly Electricity consumption in Gigawatts(GW) from 2002/01 to 2021/06  ")
+
+```
+## Electric loaf data Decomposition
+```{r ts_decomposition}
+EC <- ts(mydata$EC, start=2002, frequency=12)
+EC %>% decompose(type="additive") %>%
+  autoplot() + xlab("Year") +
+  ggtitle("Time Series decomposition: Electrictity Consmption Data") +
+  theme_bw()
+
+```
+
+## Autocorrelation function (for identifying order of AR)
+```{r acf_plot}
+acf(mydata$EC, main="")
+```
+
+## Partial Autocorrelation function (for identifying order of MA)
+```{r pacf_plot}
+acf(mydata$EC, type="partial",main="")
+```
+
+```{r diffrencing_data}
+diff_dataset=diff(main_dataset)
+plot(diff_dataset,ylab="Electricity Consumption (GW)",xlab="Years",main=" Electricity consuption (differenced)")
+```
+
+# Thank You
