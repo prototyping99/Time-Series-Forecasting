@@ -1,0 +1,38 @@
+---
+#title: "R Notebook"
+title: "Load Forecasting using a Hybrid Model for Autoregressive Integrated Moving Average and Artificial Neural Network: Modelling"
+author: "Nhlanhla Mthembu"
+date: "15/10/2021"
+output: html_notebook
+---
+
+## ARIMA Results
+
+### Model fitting and Residual check
+```{r arima_fit}
+fitAR<-auto.arima(EC, lambda=0, biasadj=TRUE)
+checkresiduals(fitAR)+theme_bw()
+```
+### Forecast Intervals
+```{r}
+fitARIMA<- forecast(fitAR, h = 12*3) 
+fitARIMA
+```
+
+### Error Metrics
+```{r Erro_metrics}
+ARIMA_Acc <- round(t(accuracy(fitARIMA)), 2)
+ARIMA_Acc # Arima model accuracy
+
+```
+
+### Forecast plot
+```{r}
+autoplot(fitARIMA)+
+  autolayer(fitted(fitARIMA), series = "Fitted")+
+  xlab("Year") + ylab("Elecricity Consumption (GW)") +
+  ggtitle("Electricity Consumption: ARIMA forecasts") +
+  theme_bw()
+```
+
+## Thank You

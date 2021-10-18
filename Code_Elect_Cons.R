@@ -17,7 +17,6 @@ suppressPackageStartupMessages(c(
 # Read data 
 mydata <- read.csv("datasetv2.csv", header = TRUE, sep=";") # directory path 
 mydata$date <- as.POSIXct(strptime(mydata$date, format = "%Y/%m/%d", tz = "GMT"))
-
 head(mydata, 3)
 #####################################
 
@@ -53,15 +52,14 @@ EC %>% decompose(type="additive") %>%
 fitAR<-auto.arima(EC, lambda=0, biasadj=TRUE)
 checkresiduals(fitAR)+
   theme_bw()
-
 fitARIMA<- forecast(fitAR, h = 12*3) 
 fitARIMA
 ARIMA_Acc <- round(t(accuracy(fitARIMA)), 2)
 ARIMA_Acc # Arima model accuracy
 autoplot(fitARIMA)+
   autolayer(fitted(fitARIMA), series = "Fitted")+
-  xlab("Year") + ylab("EC (----)") +
-  ggtitle("EC: ARIMA") +
+  xlab("Year") + ylab("Elecricity Consumption (GW)") +
+  ggtitle("Electricity Consumption: ARIMA forecasts") +
   theme_bw()
 # Correlation coeficient calculation
 
@@ -131,3 +129,4 @@ ggscatter(ccHB, x = "EC", y = "Hybrid_Model_na.fitted",
           xlab = "Original data", ylab = "Hybrid ANN+ARIMA model")+
   theme_bw()
 ################################################
+
